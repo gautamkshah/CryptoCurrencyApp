@@ -3,8 +3,14 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { StatusBar } from 'expo-status-bar'
 import RootNavigation from './src/screen/navigation/RootNavigation';
+import useCatchedResources from './hooks/useCatchedResources';
 
 const App = () => {
+
+  const isLoadingComplete=useCatchedResources()
+  if (!isLoadingComplete) {
+    return null
+  }
 
   
   return (

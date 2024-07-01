@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React, { useState } from 'react'
 import {
   TransitionPresets, 
@@ -16,7 +15,15 @@ const RootNavigation = () => {
   return (
     <NavigationContainer>
 
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+          animationEnabled:true,
+          gestureEnabled:true,
+          gestureDirection:'horizontal'
+        
+        }}>
         {
           session ? (
             <Stack.Screen name="TabNavigation" component={TabNavigation} />
@@ -26,9 +33,7 @@ const RootNavigation = () => {
         
         }
       </Stack.Navigator>
-    <View>
-      <Text>RootNavigation</Text>
-    </View>
+   
     </NavigationContainer>
   )
 }
