@@ -29,7 +29,8 @@ const Avatar = ({url , size=150, onUpload,showUpload}: Props) => {
      try{
       const {data ,error}=  await supabase.storage.from('avatars').download(path)
       if(error) {throw error
-        console.log('Error downloading image: ', error)
+       
+        console.log('Error downloading image1: ', error)
       }
 
       const fr= new FileReader()
@@ -40,7 +41,7 @@ const Avatar = ({url , size=150, onUpload,showUpload}: Props) => {
      }
      catch(error){
        if(error instanceof Error){
-         console.log("Error downloading image: ", error.message)
+         console.log("Error downloading image1: ", error.message)
        }
      }
    }

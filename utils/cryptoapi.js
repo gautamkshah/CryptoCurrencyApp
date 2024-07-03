@@ -1,4 +1,3 @@
-import { isMethodDeclaration } from 'typescript';
 import {XRapidAPIHost,XRapidAPIKey,XRapidAPINewsHost} from './api'
 import axios from 'axios'
 
@@ -6,7 +5,7 @@ import axios from 'axios'
 
 const apiBaseurl = "https://coinranking1.p.rapidapi.com"
 
-const coinsurl ='${apiBaseurl}/coins?referenceCurrencyUuid=yhjMzLPhuID1&timePeriod=24h&tiers[0]=1&orderBy=marketCap&orderDirection=desc&limit=30&offset=0';
+const coinsurl =`${apiBaseurl}/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0`;
 
 
 const CryptoApiCall = async (Endpoints,params) => {
@@ -15,8 +14,8 @@ const CryptoApiCall = async (Endpoints,params) => {
          url: Endpoints,
          params: params? params : {},
          headers:{
-            "X-RapidAPI-Key": '${XRapidAPIKey}',
-            "X-RapidAPI-Host": '${XRapidAPIHost}'
+            "X-RapidAPI-Key": `${XRapidAPIKey}`,
+            "X-RapidAPI-Host": `${XRapidAPIHost}`
          },
     };
     try{
@@ -25,7 +24,7 @@ const CryptoApiCall = async (Endpoints,params) => {
 
     }
     catch(error){
-        console.error(error);
+        console.error("i am error ",error);
         return {}
     }
 }

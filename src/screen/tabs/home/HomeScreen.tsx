@@ -1,18 +1,27 @@
-import { View, Text, Pressable, ActivityIndicator } from 'react-native'
+import { 
+  View, 
+  Text, 
+  Pressable, 
+  ActivityIndicator,
+  FlatList,
+  ScrollView } 
+  from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Avatar from '@/src/components/Avatar'
 import useSupabaseAuth from '@/hooks/useSupabaseAuth'
-import { useFocusEffect } from '@react-navigation/native'
+import { 
+  NavigationProp, 
+  useFocusEffect, 
+  useNavigation } 
+  from '@react-navigation/native'
 import { useUserStore } from '@/store/useUserStore'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useQuery } from '@tanstack/react-query'
 import { FetAlllCoins } from '../../../../utils/cryptoapi'
 import Animated, { FadeInDown } from 'react-native-reanimated'
-import { isNumericLiteral } from 'typescript'
 import numeral from 'numeral'
-import { FlatList, ScrollView } from 'react-native-gesture-handler'
 
 interface Coin {
   uuid: string;
@@ -23,6 +32,7 @@ interface Coin {
   change: number;
   marketCap: string;
 }
+
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj["
 
@@ -32,6 +42,7 @@ const HomeScreen = () => {
   const [loading, setloading] = useState(false)
   const { getUserprofile } = useSupabaseAuth()
   const { session } = useUserStore()
+  const { navigate } :NavigationProp<ScreenNavigationType> = useNavigation()
 
 
   async function handleGetProfile() {
@@ -67,13 +78,13 @@ const HomeScreen = () => {
   const { data: CoinsData, isLoading: IsAllCoinsLoading } = useQuery({
     queryKey: ['allCoins'],
     queryFn: FetAlllCoins
-
-
   });
 
   const renderItem = ({ item, index }: { item: Coin; index: number }) => {
-    return (
-      <Pressable className='flex-row w-full py-4 items-center'>
+  return (
+      <Pressable className='flex-row w-full py-4 items-center p-4' 
+      onPress={ ()=> navigate("CoinDetails",{coinUuid: item.uuid})}
+      >
         <Animated.View
           entering={FadeInDown.duration(100)
             .delay(index * 200)
@@ -81,7 +92,7 @@ const HomeScreen = () => {
           } className='w-full flex-row items-center'>
           <View className='w-[16%]'>
             <View>
-              <View className='w-10 h-10'>
+              <View className='w-10 h-10 '>
                 <Image
                   source={{ uri: item.iconUrl }}
                   placeholder={blurhash}
@@ -91,7 +102,7 @@ const HomeScreen = () => {
               </View>
             </View>
           </View>
-          <View className='w-[55%] justify-start items-start'>
+          <View className='w-[55%] justify-start items-start '>
             <Text className='text-lg font-bold'>
               {item.name}
             </Text>
@@ -119,11 +130,11 @@ const HomeScreen = () => {
           </View>
         </Animated.View>
       </Pressable>
-    );
+  );
   };
   
 
-  console.log(CoinsData)
+  console.log("data", CoinsData)
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
@@ -230,7 +241,8 @@ const HomeScreen = () => {
         <ScrollView
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}>
-          {
+             {
+            
             IsAllCoinsLoading ? (
               <ActivityIndicator size='large' color='black' />
             ) : (
@@ -244,6 +256,7 @@ const HomeScreen = () => {
               />
             )
           }
+
         </ScrollView>
 
 
